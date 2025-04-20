@@ -1,12 +1,18 @@
 package com.javaweb.course.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_user") /* Mapeamento da tabela do banco de dados tabela sera criada como o nome de tb_user e não o nome da classe evitando conflito */
 public class User implements Serializable { /* Serializable = objeto transformados em cadeias de bytes (para trafegar na rede, para ser gravado em arquivo entre outros */
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) /* Anotação para definir o Id da tabela e incrementar o Id automaticamente */
     private Long id;
     private String name;
     private String email;
