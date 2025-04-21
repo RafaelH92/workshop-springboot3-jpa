@@ -3,6 +3,8 @@ package com.javaweb.course.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,11 +21,16 @@ public class User implements Serializable { /* Serializable = objeto transformad
     private String phone;
     private String password;
 
+    /* Associação */
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
+
     public User(){
 
     }
 
     public User(Long id, String name, String email, String phone, String password) {
+        super();
         this.id = id;
         this.name = name;
         this.email = email;
@@ -71,6 +78,10 @@ public class User implements Serializable { /* Serializable = objeto transformad
         this.password = password;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -82,6 +93,7 @@ public class User implements Serializable { /* Serializable = objeto transformad
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
 
 
 }
