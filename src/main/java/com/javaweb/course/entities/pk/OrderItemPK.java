@@ -12,7 +12,7 @@ import java.util.Objects;
 /* Classe auxiliar de chave primaria composta */
 
 @Embeddable
-public class OrdemItemPK implements Serializable {
+public class OrderItemPK implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class OrdemItemPK implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        OrdemItemPK that = (OrdemItemPK) o;
+        OrderItemPK that = (OrderItemPK) o;
         return Objects.equals(order, that.order) && Objects.equals(product, that.product);
     }
 
