@@ -1,5 +1,6 @@
 package com.javaweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -26,6 +27,9 @@ public class Product implements Serializable {
     joinColumns = @JoinColumn(name = "product_id"),
     inverseJoinColumns = @JoinColumn(name = "category_id")) /* Insere tabela relacioal de muitos para muitos entre produtos e categorias */
     private Set<Category> categories = new HashSet<>(); /* Set é um conjunto para garantir que nao vai ter produto  com mais de uma ocorrencia da mesma categoria */
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product(){
 
@@ -82,6 +86,16 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    /* Percore a coleção de itens associada ao produto para obter o pedido */
+    @JsonIgnore
+    public Set<Order> getOrders(){
+        Set<Order> set = new HashSet<>();
+        for (OrderItem value : items){
+            set.add(value.getOrder());
+        }
+        return set;
     }
 
     @Override
