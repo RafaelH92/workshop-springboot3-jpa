@@ -64,6 +64,14 @@ public class Order implements Serializable {
         this.moment = moment;
     }
 
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
+    }
+
     public OrderStatus getOrderStatus() {
         return OrderStatus.valueOf(orderStatus);
     }
@@ -74,24 +82,24 @@ public class Order implements Serializable {
         }
     }
 
-    public User getClient() {
-        return client;
-    }
-
-    public void setClient(User client) {
-        this.client = client;
-    }
-
-    public Set<OrderItem> getItems(){
-        return items;
-    }
-
     public Payment getPayment() {
         return payment;
     }
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public Set<OrderItem> getItems(){
+        return items;
+    }
+
+    public Double getTotal(){
+        double sum = 0.0;
+        for (OrderItem value : items){
+            sum += value.getSubTotal();
+        }
+        return sum;
     }
 
     @Override
@@ -105,6 +113,4 @@ public class Order implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
-
 }
