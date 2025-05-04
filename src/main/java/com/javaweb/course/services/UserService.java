@@ -24,6 +24,10 @@ public class UserService {
     }
 
     public User insert(User obj){
-        return userRepository.save(obj); /* Retorn a entidade salva */
+        return userRepository.save(obj); /* Retorna a entidade salva */
+    }
+
+    public void delete(Long id){
+        userRepository.deleteById(id);
     }
 }

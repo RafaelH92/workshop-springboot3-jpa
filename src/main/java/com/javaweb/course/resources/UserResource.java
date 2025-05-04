@@ -32,8 +32,14 @@ public class UserResource {
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User obj){ /* Desserializa o json passado para objeto */
         obj = service.insert(obj);
-        /* Para retorno de reposta 201 (criação) deve ser retornar um obj do tipo URI com o caminho do recurso que foi criado */
+        /* Para retorno de reposta 201 (criação) deve ser instanciado um obj do tipo URI com o caminho do recurso que foi criado */
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){ /* Void pois não sera retornado nada no corpo da resposta */
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
