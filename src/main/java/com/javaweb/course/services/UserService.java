@@ -2,8 +2,11 @@ package com.javaweb.course.services;
 
 import com.javaweb.course.entities.User;
 import com.javaweb.course.repositories.UserRepository;
+import com.javaweb.course.services.exceptions.DatabaseException;
 import com.javaweb.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +32,15 @@ public class UserService {
     }
 
     public void delete(Long id){
-        userRepository.deleteById(id);
+        try {
+            if (userRepository.existsById(id)) { /* utilizando existsById pois o deleteById não gera mais exceção caso não encontrar o registro para deleção */
+                userRepository.deleteById(id);
+            } else {
+                throw new ResourceNotFoundException(id);
+            }
+        } catch (DataIntegrityViolationException e) { /* Erro de integridade do bd */
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public User update(Long id, User obj){
